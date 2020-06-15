@@ -2,6 +2,7 @@ package com.lerubiz.ws.security;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lerubiz.ws.SpringApplicationContext;
 import com.lerubiz.ws.service.UserService;
 import com.lerubiz.ws.shared.dto.UserDto;
 import com.lerubiz.ws.ui.model.request.UserLoginRequestModel;
@@ -66,11 +67,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.TOKEN_SECRET)
                 .compact();
 
-//        UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
-//        UserDto userDto = userService.getUser(userName);
+        UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
+        UserDto userDto = userService.getUser(userName);
 
         res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
-        //res.addHeader("UserID", userDto.getUserId());
+        res.addHeader("UserID", userDto.getUserId());
 
     }
 
